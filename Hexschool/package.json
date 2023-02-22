@@ -1,12 +1,12 @@
 {
   "name": "hexschool",
   "version": "1.0.0",
-  "description": "<!-- 建立環境 -->\r npm init",
+  "description": "npm init",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node server.ts",
-    "nodemon": "nodemon server.ts"
+    "nodemon": "nodemon ./Electron/test/server.ts"
   },
   "author": "",
   "license": "ISC",
