@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node server.ts",
-    "nodemon": "nodemon ./Electron/test/server.ts"
+    "nodemon": "npx nodemon ./Example/EP04-05_Todolist_RESTful_API_kata/server.ts"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +17,6 @@
   },
   "dependencies": {
     "uuid": "^9.0.0"
-  }
+  },
+  "keywords": []
 }

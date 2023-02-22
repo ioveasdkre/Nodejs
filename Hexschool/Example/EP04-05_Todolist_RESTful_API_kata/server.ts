@@ -44,6 +44,9 @@ const requestListenet = (req: IncomingMessage, res: ServerResponse) => {
   if (req.url === "/todos" && req.method === "GET") {
     // 如果請求方法為 GET 且路徑為 /，回傳 "index" 字串
     setRes(200, headers, { title: "success", data: todos });
+  } else if (req.url === "/todos" && req.method === "POST") {
+    // 如果請求方法為 GET 且路徑為 /，回傳 "index" 字串
+    setRes(200, headers, { title: "success", data: todos });
   } else if (req.method === "OPTIONS") {
     setRes(200, headers);
   } else {

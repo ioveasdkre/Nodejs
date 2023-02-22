@@ -1,5 +1,11 @@
+<!-- 安裝環境 -->
+[POSTMAN 下載] (https://www.postman.com/downloads/)
+[UUID NPM] (https://www.npmjs.com/package/uuid)
+[JSON-formatter] (https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=zh-TW)
+[JSONVue] (https://chrome.google.com/webstore/detail/jsonvue/chklaanhfefbnpoihckbnefhakgolnmc?hl=zh-TW)
+
 <!-- 建立環境 -->
-npm init
+npm install
 
 <!-- 套件 -->
 npm i ts-node --save-dev
