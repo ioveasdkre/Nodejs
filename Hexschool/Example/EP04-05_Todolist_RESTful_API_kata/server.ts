@@ -1,46 +1,9 @@
 import http, { IncomingMessage, ServerResponse } from "http";
-import { v4 as uuidv4 } from "uuid";
-import { ResultMessage, ResultModel } from "./apiResponse";
+import { ResultModel } from "./apiResponse";
 import { errorHandle } from "./errorHandle";
-
-interface Todo {
-  id: string;
-  title: string;
-}
-
-//#region [ 本地儲存變數 todos ]
-/**
- * 本地儲存變數 todos
- */
-const todos: ResultModel<Todo[]> = {
-  code: 200,
-  message: "success",
-  data: [
-    {
-      id: uuidv4(),
-      title: "今天要刷牙",
-    },
-    {
-      id: uuidv4(),
-      title: "今天要吃早餐",
-    },
-  ],
-};
-//#endregion
-
-//#region setTodos [ 設定 todo ]
-/**
- * 設定 todo
- * @param title
- * @returns Todo
- */
-const setTodos = (title: string): Todo => {
-  return {
-    id: uuidv4(),
-    title: title,
-  };
-};
-//#endregion
+import { todoList, setTodo, deleteTodo } from "./todoControllers";
+import { Todo } from "./todoModel";
+import { headersObj } from "./apiRequestModel";
 
 //#region requestListener [ 請求監聽器 ]
 /**
@@ -48,8 +11,8 @@ const setTodos = (title: string): Todo => {
  * @param req request 請求
  * @param res response 回覆
  */
-const requestListener = (req: IncomingMessage, res: ServerResponse) => {
-  const headers = {
+const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
+  const headers: headersObj = {
     "Access-Control-Allow-Headers":
       "Content-Type, Authorization, Content-Length, X-Requested-With",
     "Access-Control-Allow-Origin": "*",
@@ -60,35 +23,35 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
   let body: string = "";
 
   req.on("data", (chunk: string) => {
-    // console.log(chunk); // Buffer 是 Node.js 中一個核心模組，用於處理二進制數據，例如圖片、音頻、視頻等
     body += chunk;
   });
 
-  const setRes = <T>(
+  const setResponse = (
     statusCode: number,
-    headersObj: { [key: string]: string },
-    write?: ResultMessage | ResultModel<T>
-  ) => {
-    // 設置 HTTP 狀態碼為 200，並設置標頭 headers
+    headersObj: headersObj,
+    massage: string
+  ): void => {
+    const result: ResultModel<Todo[]> = {
+      code: statusCode,
+      message: massage,
+      data: todoList,
+    };
+
     res.writeHead(statusCode, headersObj);
 
-    if (write) res.write(JSON.stringify(write)); // 回傳 write 字串
+    if (result) res.write(JSON.stringify(result));
 
-    // 結束回應
     res.end();
   };
 
-  const postRes = (
-    statusCode: number,
-    headersObj: { [key: string]: string }
-  ) => {
+  const postResponse = (statusCode: number, headersObj: headersObj): void => {
     req.on("end", () => {
       try {
         const titleText: string = JSON.parse(body).title;
 
         if (titleText !== undefined) {
-          todos.data?.push(setTodos(titleText));
-          setRes(statusCode, headersObj, todos);
+          setTodo(titleText);
+          setResponse(statusCode, headersObj, "新增資料成功");
         } else {
           errorHandle(res, 400, headersObj, "欄位未填寫正確，或無此 todo id");
         }
@@ -98,26 +61,42 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
     });
   };
 
-  // console.log("req.url: ", req.url);
-  // console.log("req.method: ", req.method);
+  const deleteResponse = (statusCode: number, headersObj: headersObj, id?: string): void => {
+    req.on("end", () => {
+      try {
+        if (id !== undefined) {
+          deleteTodo(id);
+          setResponse(statusCode, headersObj, "刪除資料成功");
+        } else {
+          errorHandle(res, 400, headersObj, "刪除資料發生錯誤");
+        }
+      } catch (err) {
+        errorHandle(res, 400, headersObj, "刪除資料發生錯誤");
+      }
+    });
+  };
+
 
   if (req.url === "/todos" && req.method === "GET") {
-    // 如果請求方法為 GET 且路徑為 /，回傳 "index" 字串
-    setRes(200, headers, todos);
+    setResponse(200, headers, "讀取資料成功");
   } else if (req.url === "/todos" && req.method === "POST") {
-    // 如果請求方法為 GET 且路徑為 /，回傳 "index" 字串
-    postRes(200, headers);
+    postResponse(200, headers);
+  } else if (req.url === "/todos" && req.method === "DELETE") {
+    todoList.length = 0;
+    setResponse(200, headers, "刪除資料成功");
+  } else if (req.url?.startsWith("/todos/") && req.method === "DELETE") {
+    const id = req.url.split("/").pop();
+    
+    deleteResponse(200, headers, id);
   } else if (req.method === "OPTIONS") {
-    setRes(200, headers);
+    setResponse(200, headers, "預檢請求");
   } else {
-    // 其他情況，回傳 "not found 404" 字串
     errorHandle(res, 404, headers, "無此網路路由");
   }
 };
 //#endregion
 
-// 建立 HTTP 伺服器並設置請求監聽器
 const server = http.createServer(requestListener);
+const port = 3005;
 
-// 啟動伺服器，監聽 3005 port
-server.listen(3005);
+server.listen(port);

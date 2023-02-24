@@ -1,5 +1,6 @@
 import { ServerResponse } from "http";
 import { ResultMessage } from "./apiResponse";
+import { headersObj } from "./apiRequestModel";
 
 const setMistake = (code: number, message: string): ResultMessage => {
   return {
@@ -11,7 +12,7 @@ const setMistake = (code: number, message: string): ResultMessage => {
 const errorHandle = (
   res: ServerResponse,
   statusCode: number,
-  headersObj: { [key: string]: string },
+  headersObj: headersObj,
   massage: string
 ) => {
   const mistake = setMistake(statusCode, massage);
