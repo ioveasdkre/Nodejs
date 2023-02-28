@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node server.ts",
-    "nodemon": "npx nodemon ./Example/EP04-05_Todolist_RESTful_API_kata/server.ts"
+    "start": "npx ts-node server.ts",
+    "nodemon": "npx nodemon ./Example/EP02_Node模組原理/server.ts"
   },
   "author": "",
   "license": "ISC",

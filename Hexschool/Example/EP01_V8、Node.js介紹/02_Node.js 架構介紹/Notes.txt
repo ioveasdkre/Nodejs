@@ -1,0 +1,18 @@
+第一步：尋找電腦裡的終端機(命令提示字元)
+Mac：termianl.app(ctrl + Space)
+Windows：cmd.exe
+
+第二步驟：熟悉指令
+移動路徑
+cd 路徑
+回到上一層
+cd ..
+
+win瀏覽所在目錄
+dir
+
+Mac瀏覽所在目錄
+ls
+
+執行檔案
+node 檔名.js

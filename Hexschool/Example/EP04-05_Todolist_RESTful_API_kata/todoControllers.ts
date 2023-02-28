@@ -54,4 +54,26 @@ const deleteTodo = (id: string): boolean => {
 };
 //#endregion
 
-export { todoList, setTodo, deleteTodo };
+//#region deleteTodo [ 刪除 todo ]
+/**
+ * 刪除 todo
+ * @param title
+ * @returns boolean
+ */
+const patchTodo = (id: string, title: string): boolean => {
+  try {
+    const index = todoList.findIndex((element) => element.id === id);
+
+    if (index === -1) return false;
+
+    todoList[index].title = title;
+
+    return true;
+
+  } catch (e) {
+    return false;
+  }
+};
+//#endregion
+
+export { todoList, setTodo, deleteTodo, patchTodo };

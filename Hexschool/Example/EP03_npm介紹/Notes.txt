@@ -1,0 +1,27 @@
+版本介紹
+"typescript": "^4.9.5"
+
+- 4: 主要版本
+- 9: 次要版本
+- 5: bug修正
+
+x 會去自動更新後面的版本
+^ 安裝 4.x.x
+~ 安裝 4.9.x
+latest 安裝最新的
+
+--save
+node應用程式上線會用到的 npm
+
+--save-dev
+開發測試使用
+* jshint
+* mocha
+
+-g
+全域
+Window
+C:\Users\[使用者名稱]
+\AppData\Roaming\npm\node_modules
+Mac
+/usr/local/lib/node_modules
