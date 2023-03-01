@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx ts-node server.ts",
-    "nodemon": "npx nodemon ./Example/EP02_Node模組原理/server.ts"
+    "nodemon": "npx nodemon ./Example/EP05_Node-Promise_Async_Await/all.ts"
   },
   "author": "",
   "license": "ISC",

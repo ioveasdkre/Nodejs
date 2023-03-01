@@ -84,7 +84,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
     });
   };
 
-  const patchResponse = (statusCode: number, headersObj: headersObj, id?: string): void => {
+  const patchResponse = (statusCode: number, headersObj: headersObj): void => {
     req.on("end", () => {
       try {
         const id: string | undefined = req.url?.split("/").pop();
