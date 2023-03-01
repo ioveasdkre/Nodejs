@@ -1,5 +1,4 @@
-// promise, async, await
-
+// promise
 const score: number = Math.round(Math.random() * 100); // 分數
 
 const checkScore = (score: number) => {

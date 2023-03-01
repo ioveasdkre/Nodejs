@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx ts-node server.ts",
-    "nodemon": "npx nodemon ./Example/EP05_Node-Promise_Async_Await/all.ts"
+    "nodemon": "npx nodemon ./Example/EP05_Node-Promise_Async_Await/all-3.ts",
+    "tstojs": "npx tsc -w"
   },
   "author": "",
   "license": "ISC",
