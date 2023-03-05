@@ -5,3 +5,4 @@ EP04_Todolist_RESTful_API_kata   RESTful API介紹
 EP05_Node-Promise_Async_Await 非同步技巧
 EP06_MongoDB環境建置
 EP07_MongoDB_Shell_語法教學
+EP08_Mongoose_NPM _教學

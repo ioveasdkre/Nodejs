@@ -51,12 +51,21 @@ const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
 
         if (titleText !== undefined) {
           const resSet = setTodo(titleText);
-          if (resSet)
-            setResponse(statusCode, headersObj, "新增資料成功");
+          if (resSet) setResponse(statusCode, headersObj, "新增資料成功");
           else
-            errorHandle(res, 400, headersObj, "欄位未填寫正確，或無此 todo title");
+            errorHandle(
+              res,
+              400,
+              headersObj,
+              "欄位未填寫正確，或無此 todo title"
+            );
         } else {
-          errorHandle(res, 400, headersObj, "欄位未填寫正確，或無此 todo title");
+          errorHandle(
+            res,
+            400,
+            headersObj,
+            "欄位未填寫正確，或無此 todo title"
+          );
         }
       } catch (err) {
         errorHandle(res, 400, headersObj, "欄位未填寫正確，或無此 todo title");
@@ -71,10 +80,8 @@ const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
         if (id !== undefined) {
           const resDelete: boolean = deleteTodo(id);
 
-          if (resDelete)
-            setResponse(statusCode, headersObj, "刪除資料成功");
-          else
-            errorHandle(res, 400, headersObj, "查無此 id");
+          if (resDelete) setResponse(statusCode, headersObj, "刪除資料成功");
+          else errorHandle(res, 400, headersObj, "查無此 id");
         } else {
           errorHandle(res, 400, headersObj, "刪除資料發生錯誤");
         }
@@ -89,15 +96,25 @@ const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
       try {
         const id: string | undefined = req.url?.split("/").pop();
         const titleText: string = JSON.parse(body).title;
-        
+
         if (titleText !== undefined && id !== undefined) {
           patchTodo(id, titleText);
           setResponse(statusCode, headersObj, "編輯資料成功");
         } else {
-          errorHandle(res, 400, headersObj, "欄位未填寫正確，或無此 todo title 或 id");
+          errorHandle(
+            res,
+            400,
+            headersObj,
+            "欄位未填寫正確，或無此 todo title 或 id"
+          );
         }
       } catch (err) {
-        errorHandle(res, 400, headersObj, "欄位未填寫正確，或無此 todo title 或 id");
+        errorHandle(
+          res,
+          400,
+          headersObj,
+          "欄位未填寫正確，或無此 todo title 或 id"
+        );
       }
     });
   };

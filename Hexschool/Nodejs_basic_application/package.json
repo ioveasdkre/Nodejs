@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx ts-node server.ts",
-    "nodemon": "npx nodemon ./Example/EP04_Todolist_RESTful_API_kata/server.ts",
+    "nodemon": "npx nodemon ./Example/EP08_Mongoose_NPM_教學/server.ts",
     "tstojs": "npx tsc -w"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "mongoose": "^7.0.0",
     "uuid": "^9.0.0"
   },
   "keywords": []
