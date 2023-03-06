@@ -1,5 +1,7 @@
 import http, { IncomingMessage, ServerResponse } from "http";
+import { createRoom } from "./roomCRUD";
 import mongoose from "mongoose";
+const { ValidationError } = mongoose.Error;
 
 // 連線到 MongoDB
 mongoose
@@ -7,18 +9,17 @@ mongoose
   .then(() => console.log("資料庫連線成功"))
   .catch((error: Error) => console.log(error));
 
-// 定義資料表結構
-const roomSchema = new mongoose.Schema({
-  name: String,
-  price: {
-    type: Number,
-    require: [true, "欄位必填"],
-  },
-  rating: Number,
-});
-
-// 操作資料庫 CRUD
-const Room = mongoose.model("Room", roomSchema);
+// 新增檔案
+createRoom
+  .save()
+  .then(() => console.log("新增資料成功"))
+  .catch((error: Error) => {
+    if (error instanceof ValidationError) {
+      console.log(error.errors);
+    } else {
+      console.log(error);
+    }
+  });
 
 //#region requestListener [ 請求監聽器 ]
 /**
