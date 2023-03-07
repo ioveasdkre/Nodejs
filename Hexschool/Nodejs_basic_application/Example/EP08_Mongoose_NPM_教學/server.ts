@@ -58,7 +58,6 @@ const requestListener = async (
             rooms: newRoom,
           })
         );
-        res.end();
       } catch (error) {
         res.writeHead(400, headers);
         res.write(
@@ -68,9 +67,115 @@ const requestListener = async (
             error: error,
           })
         );
-        res.end();
       }
+      res.end();
     });
+  } else if (req.url === "/rooms" && req.method === "DELETE") {
+    await Room.deleteMany({});
+    res.writeHead(200, headers);
+    res.write(
+      JSON.stringify({
+        status: "success",
+        rooms: [],
+      })
+    );
+    res.end();
+  } else if (req.url?.startsWith("/rooms/") && req.method === "DELETE") {
+    req.on("end", async () => {
+      try {
+        const id: string | undefined = req.url?.split("/").pop(); // 取最後一筆
+        if (id) {
+          const deleteRoom = await Room.findByIdAndDelete(id); // 如果文档不存在，返回 null。
+          // const deleteRoom = await Room.findByIdAndRemove(id); // 如果文档不存在，返回 undefined。
+          console.log(deleteRoom);
+          res.writeHead(200, headers);
+          res.write(
+            JSON.stringify({
+              status: "success",
+              rooms: [],
+            })
+          );
+        } else {
+          res.writeHead(404, headers);
+          res.write(
+            JSON.stringify({
+              status: "false",
+              message: "刪除資料發生錯誤",
+            })
+          );
+        }
+      } catch (error) {
+        res.writeHead(404, headers);
+        res.write(
+          JSON.stringify({
+            status: "false",
+            message: "刪除資料發生錯誤",
+            error: error,
+          })
+        );
+      }
+      res.end();
+    });
+  } else if (req.url?.startsWith("/rooms/") && req.method === "PATCH") {
+    req.on("end", async () => {
+      try {
+        const id: string | undefined = req.url?.split("/").pop(); // 取最後一筆
+        if (id) {
+          const data: IRoom = JSON.parse(body);
+
+          const newRoom = await Room.findByIdAndUpdate(
+            id,
+            {
+              name: data.name,
+              price: data.price,
+              rating: data.rating,
+            },
+            {
+              new: true, // 回傳更改後的內容
+            }
+          );
+
+          res.writeHead(200, headers);
+          res.write(
+            JSON.stringify({
+              status: "success",
+              rooms: newRoom,
+            })
+          );
+        } else {
+          res.writeHead(404, headers);
+          res.write(
+            JSON.stringify({
+              status: "false",
+              message: "刪除資料發生錯誤",
+            })
+          );
+        }
+      } catch (error) {
+        res.writeHead(404, headers);
+        res.write(
+          JSON.stringify({
+            status: "false",
+            message: "刪除資料發生錯誤",
+            error: error,
+          })
+        );
+      }
+      res.end();
+    });
+  } else if (req.method === "OPTIONS") {
+    res.writeHead(200, headers);
+    res.end();
+  } else {
+    res.writeHead(404, headers);
+    res.write(
+      JSON.stringify({
+        status: "false",
+        message: "無此網站路由",
+      })
+    );
+
+    res.end();
   }
 };
 //#endregion
