@@ -1,12 +1,31 @@
 import http, { IncomingMessage, ServerResponse } from "http";
 import { Room, IRoom } from "./models/room";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+import path from "path";
+
+dotenv.config({ path: path.join(__dirname, "../../config.env") });
+
+console.log(process.env.PORT);
+
+const DB: string = process.env.DATABASE!.replace(
+  "<password>",
+  process.env.DATABASE_PASSWORD!
+);
+
+console.log(DB);
 
 // 連線到 MongoDB
 mongoose
   .connect("mongodb://127.0.0.1:27017/hotel")
   .then(() => console.log("資料庫連線成功"))
   .catch((error: Error) => console.log(error));
+
+// 連線到 MongoDB
+// mongoose
+//   .connect(DB)
+//   .then(() => console.log("資料庫連線成功"))
+//   .catch((error: Error) => console.log(error));
 
 //#region requestListener [ 請求監聽器 ]
 /**
@@ -183,8 +202,5 @@ const requestListener = async (
 // 建立 http 伺服器
 const server = http.createServer(requestListener);
 
-// 設定伺服器監聽的 port
-const port = 3005;
-
 // 啟動伺服器
-server.listen(port);
+server.listen(process.env.PORT);
