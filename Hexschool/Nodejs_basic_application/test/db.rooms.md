@@ -1,3 +1,4 @@
+```shell
 db.rooms.insertMany([
   {
     rating: 4.5,
@@ -36,3 +37,4 @@ db.rooms.insertMany([
     payment: ["現金"],
   },
 ]);
+```
